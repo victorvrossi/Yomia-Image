@@ -42,13 +42,16 @@ public class Main extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         lb_image = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
         txCaminhoImage = new javax.swing.JTextField();
         btMudaImage = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        treeFiles = new javax.swing.JTree();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(204, 204, 255));
-        jPanel1.setForeground(new java.awt.Color(204, 204, 255));
+        jPanel1.setBackground(new java.awt.Color(204, 255, 204));
+        jPanel1.setForeground(new java.awt.Color(204, 255, 204));
 
         lb_image.setIcon(new javax.swing.ImageIcon("C:\\Users\\Victor\\Downloads\\78596357_2498338013595877_1917373576751611904_n.jpg")); // NOI18N
         lb_image.setMaximumSize(new java.awt.Dimension(640, 640));
@@ -80,28 +83,47 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addComponent(txCaminhoImage, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 138, Short.MAX_VALUE)
+                .addComponent(btMudaImage)
+                .addGap(64, 64, 64))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txCaminhoImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btMudaImage))
+                .addContainerGap(42, Short.MAX_VALUE))
+        );
+
+        jScrollPane1.setViewportView(treeFiles);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(145, 145, 145)
-                        .addComponent(txCaminhoImage, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(154, 154, 154)
-                        .addComponent(btMudaImage)))
-                .addContainerGap(224, Short.MAX_VALUE))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(178, 178, 178)
-                .addComponent(btMudaImage)
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(txCaminhoImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(252, 252, 252))
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -124,11 +146,10 @@ public class Main extends javax.swing.JFrame {
 
     private void btMudaImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btMudaImageActionPerformed
         try {
-            String nomeImagem = "";
-            nomeImagem = txCaminhoImage.getText();
-            
-            ImageIcon img = scale("C:\\Users\\Victor\\Downloads\\" + nomeImagem + ".jpg", 480, 480);
-            lb_image.setIcon(img); // NOI18N
+            String nomeImagem = txCaminhoImage.getText();
+            Imagem image = new Imagem();
+            image.carregaImagem("C:\\Users\\Victor\\Downloads\\" + nomeImagem + ".jpg");
+            lb_image.setIcon(image.geraImagemParaExibicao());
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -137,25 +158,22 @@ public class Main extends javax.swing.JFrame {
     public static ImageIcon scale(String src, int width, int height)
             throws IOException {
         BufferedImage imageFromFile = ImageIO.read(new File(src));
-        if(imageFromFile.getWidth() > imageFromFile.getHeight()){
+        if (imageFromFile.getWidth() > imageFromFile.getHeight()) {
             width += 160;
-        }else if(imageFromFile.getWidth() < imageFromFile.getHeight()){
+        } else if (imageFromFile.getWidth() < imageFromFile.getHeight()) {
             height += 160;
         }
-        
-        
+
         final double imageWidth = (double) width / imageFromFile.getWidth();
         final double imageHeight = (double) height / imageFromFile.getHeight();
         AffineTransform at = AffineTransform.getScaleInstance(imageWidth, imageHeight);
-        
+
         BufferedImage imageDestiny = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = imageDestiny.createGraphics();
         g.drawRenderedImage(imageFromFile, at);
         //ImageIO.write(bdest, "JPG", new File(dest));
-        
-        
-        
-        return  new ImageIcon(imageDestiny);
+
+        return new ImageIcon(imageDestiny);
     }
 
     /**
@@ -198,7 +216,10 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton btMudaImage;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lb_image;
+    private javax.swing.JTree treeFiles;
     private javax.swing.JTextField txCaminhoImage;
     // End of variables declaration//GEN-END:variables
 }
