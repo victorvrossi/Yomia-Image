@@ -41,8 +41,9 @@ public class Main extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         lb_image = new javax.swing.JLabel();
-        btMudaImage = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
         txCaminhoImage = new javax.swing.JTextField();
+        btMudaImage = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -50,6 +51,8 @@ public class Main extends javax.swing.JFrame {
         jPanel1.setForeground(new java.awt.Color(204, 204, 255));
 
         lb_image.setIcon(new javax.swing.ImageIcon("C:\\Users\\Victor\\Downloads\\78596357_2498338013595877_1917373576751611904_n.jpg")); // NOI18N
+        lb_image.setMaximumSize(new java.awt.Dimension(640, 640));
+        lb_image.setPreferredSize(new java.awt.Dimension(640, 640));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -57,16 +60,18 @@ public class Main extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lb_image)
-                .addContainerGap(224, Short.MAX_VALUE))
+                .addComponent(lb_image, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lb_image)
-                .addContainerGap(124, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lb_image, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40))
         );
+
+        txCaminhoImage.setText("jTextField1");
 
         btMudaImage.setText("Muda Imagem");
         btMudaImage.addActionListener(new java.awt.event.ActionListener() {
@@ -75,7 +80,29 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        txCaminhoImage.setText("jTextField1");
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(145, 145, 145)
+                        .addComponent(txCaminhoImage, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(154, 154, 154)
+                        .addComponent(btMudaImage)))
+                .addContainerGap(224, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(178, 178, 178)
+                .addComponent(btMudaImage)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(txCaminhoImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(252, 252, 252))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -83,24 +110,13 @@ public class Main extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(229, 229, 229)
-                        .addComponent(btMudaImage))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(165, 165, 165)
-                        .addComponent(txCaminhoImage, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 266, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(txCaminhoImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(55, 55, 55)
-                .addComponent(btMudaImage)
-                .addGap(43, 43, 43))
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 663, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -120,15 +136,26 @@ public class Main extends javax.swing.JFrame {
 
     public static ImageIcon scale(String src, int width, int height)
             throws IOException {
-        BufferedImage bsrc = ImageIO.read(new File(src));
-        BufferedImage bdest = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g = bdest.createGraphics();
-        final double imageWidth = (double) width / bsrc.getWidth();
-        final double imageHeight = (double) height / bsrc.getHeight();
+        BufferedImage imageFromFile = ImageIO.read(new File(src));
+        if(imageFromFile.getWidth() > imageFromFile.getHeight()){
+            width += 160;
+        }else if(imageFromFile.getWidth() < imageFromFile.getHeight()){
+            height += 160;
+        }
+        
+        
+        final double imageWidth = (double) width / imageFromFile.getWidth();
+        final double imageHeight = (double) height / imageFromFile.getHeight();
         AffineTransform at = AffineTransform.getScaleInstance(imageWidth, imageHeight);
-        g.drawRenderedImage(bsrc, at);
+        
+        BufferedImage imageDestiny = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        Graphics2D g = imageDestiny.createGraphics();
+        g.drawRenderedImage(imageFromFile, at);
         //ImageIO.write(bdest, "JPG", new File(dest));
-        return  new ImageIcon(bdest);
+        
+        
+        
+        return  new ImageIcon(imageDestiny);
     }
 
     /**
@@ -170,6 +197,7 @@ public class Main extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btMudaImage;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lb_image;
     private javax.swing.JTextField txCaminhoImage;
     // End of variables declaration//GEN-END:variables
