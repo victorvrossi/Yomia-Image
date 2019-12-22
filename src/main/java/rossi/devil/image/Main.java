@@ -16,6 +16,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeModel;
+import javax.swing.tree.TreePath;
 
 /**
  *
@@ -28,6 +34,7 @@ public class Main extends javax.swing.JFrame {
      */
     public Main() {
         initComponents();
+        buscaLocalCarregamento.setPreferredSize(carregaLocalImagem.getSize());
     }
 
     /**
@@ -39,6 +46,8 @@ public class Main extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buscaLocalCarregamento = new javax.swing.JDialog();
+        carregaLocalImagem = new javax.swing.JFileChooser();
         jPanel1 = new javax.swing.JPanel();
         lb_image = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -47,6 +56,28 @@ public class Main extends javax.swing.JFrame {
         btMudaImage = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         treeFiles = new javax.swing.JTree();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        menuArquivo = new javax.swing.JMenu();
+        subMenuLocalImagem = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+
+        buscaLocalCarregamento.setMaximumSize(new java.awt.Dimension(788, 372));
+        buscaLocalCarregamento.setMinimumSize(new java.awt.Dimension(788, 372));
+        buscaLocalCarregamento.setResizable(false);
+
+        javax.swing.GroupLayout buscaLocalCarregamentoLayout = new javax.swing.GroupLayout(buscaLocalCarregamento.getContentPane());
+        buscaLocalCarregamento.getContentPane().setLayout(buscaLocalCarregamentoLayout);
+        buscaLocalCarregamentoLayout.setHorizontalGroup(
+            buscaLocalCarregamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 788, Short.MAX_VALUE)
+        );
+        buscaLocalCarregamentoLayout.setVerticalGroup(
+            buscaLocalCarregamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 363, Short.MAX_VALUE)
+        );
+
+        carregaLocalImagem.setDialogType(javax.swing.JFileChooser.SAVE_DIALOG);
+        carregaLocalImagem.setFileSelectionMode(javax.swing.JFileChooser.DIRECTORIES_ONLY);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -104,6 +135,12 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap(42, Short.MAX_VALUE))
         );
 
+        alteraArvore();
+        treeFiles.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
+            public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
+                treeFilesValueChanged(evt);
+            }
+        });
         jScrollPane1.setViewportView(treeFiles);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -125,6 +162,23 @@ public class Main extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
+
+        menuArquivo.setText("Arquivos");
+
+        subMenuLocalImagem.setText("Local das imagens");
+        subMenuLocalImagem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subMenuLocalImagemActionPerformed(evt);
+            }
+        });
+        menuArquivo.add(subMenuLocalImagem);
+
+        jMenuBar1.add(menuArquivo);
+
+        jMenu2.setText("Edit");
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -155,26 +209,57 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btMudaImageActionPerformed
 
-    public static ImageIcon scale(String src, int width, int height)
-            throws IOException {
-        BufferedImage imageFromFile = ImageIO.read(new File(src));
-        if (imageFromFile.getWidth() > imageFromFile.getHeight()) {
-            width += 160;
-        } else if (imageFromFile.getWidth() < imageFromFile.getHeight()) {
-            height += 160;
+    private void mudaImagemVisualizada(String imagemCaminho) {
+        try {
+            Imagem image = new Imagem();
+            image.carregaImagem(imagemCaminho);
+            lb_image.setIcon(image.geraImagemParaExibicao());
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        final double imageWidth = (double) width / imageFromFile.getWidth();
-        final double imageHeight = (double) height / imageFromFile.getHeight();
-        AffineTransform at = AffineTransform.getScaleInstance(imageWidth, imageHeight);
-
-        BufferedImage imageDestiny = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g = imageDestiny.createGraphics();
-        g.drawRenderedImage(imageFromFile, at);
-        //ImageIO.write(bdest, "JPG", new File(dest));
-
-        return new ImageIcon(imageDestiny);
     }
+
+    private void subMenuLocalImagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenuLocalImagemActionPerformed
+        final int opcao = carregaLocalImagem.showOpenDialog(this);
+        if (JFileChooser.APPROVE_OPTION == opcao) {
+            pathEscolhido = carregaLocalImagem.getSelectedFile().getPath();
+            carregaLocalImagem.setCurrentDirectory(new File(pathEscolhido));
+        }
+        final DefaultMutableTreeNode carregaArquivos = carregaArquivos(pathEscolhido);
+        TreeModel l = new DefaultTreeModel(carregaArquivos);
+        treeFiles.setModel(l);
+    }//GEN-LAST:event_subMenuLocalImagemActionPerformed
+
+    private void treeFilesValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_treeFilesValueChanged
+        final TreePath selectionPath = treeFiles.getSelectionPath();
+        final Object image = selectionPath.getPath()[1];
+        final String imagemSelecionada = pathEscolhido+File.separatorChar+image.toString();
+        System.out.println(imagemSelecionada);
+        mudaImagemVisualizada(imagemSelecionada);
+    }//GEN-LAST:event_treeFilesValueChanged
+
+    public DefaultMutableTreeNode carregaArquivos(String src){
+        File f = new File(src);
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode(""+f.getName());
+        for(File k:f.listFiles()){
+            if(!k.isDirectory()){
+                if(verificaSeImagem(k)){
+                DefaultMutableTreeNode arquivo =new DefaultMutableTreeNode(""+k.getName());
+                root.add(arquivo);
+                }
+            }
+        }
+        return root;
+    }
+    private void alteraArvore() {
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode("Root:"+pathEscolhido);
+        DefaultMutableTreeNode vegetableNode = new DefaultMutableTreeNode("Vegetables");
+        DefaultMutableTreeNode fruitNode = new DefaultMutableTreeNode("Fruits");
+        root.add(vegetableNode);
+        root.add(fruitNode);
+        treeFiles = new JTree(root);
+    }
+    String pathEscolhido="";
 
     /**
      * @param args the command line arguments
@@ -214,12 +299,32 @@ public class Main extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btMudaImage;
+    private javax.swing.JDialog buscaLocalCarregamento;
+    private javax.swing.JFileChooser carregaLocalImagem;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lb_image;
+    private javax.swing.JMenu menuArquivo;
+    private javax.swing.JMenuItem subMenuLocalImagem;
     private javax.swing.JTree treeFiles;
     private javax.swing.JTextField txCaminhoImage;
     // End of variables declaration//GEN-END:variables
+
+    private boolean verificaSeImagem(File k) {
+        String name = k.getName().toLowerCase();
+        if(name.contains(".jpg")){
+            return true;
+        }
+        if(name.contains(".jpeg")){
+            return true;
+        }
+        if(name.contains(".gif")){
+            return true;
+        }
+        return false;
+    }
 }
