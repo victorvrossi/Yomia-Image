@@ -5,19 +5,12 @@
  */
 package rossi.devil.image;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
-import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
@@ -34,7 +27,6 @@ public class Main extends javax.swing.JFrame {
      */
     public Main() {
         initComponents();
-        buscaLocalCarregamento.setPreferredSize(carregaLocalImagem.getSize());
     }
 
     /**
@@ -46,38 +38,105 @@ public class Main extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        buscaLocalCarregamento = new javax.swing.JDialog();
+        buscaLocalSalvamento = new javax.swing.JDialog();
+        jPanel4 = new javax.swing.JPanel();
+        txSalvaLocalFavorito = new javax.swing.JTextField();
+        lbLocalFavorito = new javax.swing.JLabel();
+        lbTitleSalvaLocalFavorito = new javax.swing.JLabel();
+        btSalvaLocalFavorito = new javax.swing.JButton();
+        btCancelaLocalFavorito = new javax.swing.JButton();
         carregaLocalImagem = new javax.swing.JFileChooser();
+        localFavorito = new javax.swing.JFileChooser();
         jPanel1 = new javax.swing.JPanel();
         lb_image = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        txCaminhoImage = new javax.swing.JTextField();
-        btMudaImage = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         treeFiles = new javax.swing.JTree();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        listLocalFavorito = new javax.swing.JList<>();
+        btMoverImagem = new javax.swing.JButton();
+        btAdicionaLocal = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuArquivo = new javax.swing.JMenu();
         subMenuLocalImagem = new javax.swing.JMenuItem();
+        menuDestino = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
-        buscaLocalCarregamento.setMaximumSize(new java.awt.Dimension(788, 372));
-        buscaLocalCarregamento.setMinimumSize(new java.awt.Dimension(788, 372));
-        buscaLocalCarregamento.setResizable(false);
+        buscaLocalSalvamento.setMaximumSize(new java.awt.Dimension(788, 372));
+        buscaLocalSalvamento.setMinimumSize(new java.awt.Dimension(788, 372));
+        buscaLocalSalvamento.setResizable(false);
 
-        javax.swing.GroupLayout buscaLocalCarregamentoLayout = new javax.swing.GroupLayout(buscaLocalCarregamento.getContentPane());
-        buscaLocalCarregamento.getContentPane().setLayout(buscaLocalCarregamentoLayout);
-        buscaLocalCarregamentoLayout.setHorizontalGroup(
-            buscaLocalCarregamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 788, Short.MAX_VALUE)
+        txSalvaLocalFavorito.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        txSalvaLocalFavorito.setText("jTextField1");
+
+        lbLocalFavorito.setText("Novo Diretório:");
+
+        lbTitleSalvaLocalFavorito.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        lbTitleSalvaLocalFavorito.setText("Adicionar Local Favorito");
+
+        btSalvaLocalFavorito.setText("Salvar");
+        btSalvaLocalFavorito.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btSalvaLocalFavoritoActionPerformed(evt);
+            }
+        });
+
+        btCancelaLocalFavorito.setText("Cancelar");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(btSalvaLocalFavorito)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btCancelaLocalFavorito))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbTitleSalvaLocalFavorito)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addComponent(lbLocalFavorito)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txSalvaLocalFavorito, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 45, Short.MAX_VALUE)))
+                .addContainerGap())
         );
-        buscaLocalCarregamentoLayout.setVerticalGroup(
-            buscaLocalCarregamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 363, Short.MAX_VALUE)
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lbTitleSalvaLocalFavorito)
+                .addGap(59, 59, 59)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbLocalFavorito)
+                    .addComponent(txSalvaLocalFavorito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(35, 35, 35)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btSalvaLocalFavorito)
+                    .addComponent(btCancelaLocalFavorito))
+                .addContainerGap(40, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout buscaLocalSalvamentoLayout = new javax.swing.GroupLayout(buscaLocalSalvamento.getContentPane());
+        buscaLocalSalvamento.getContentPane().setLayout(buscaLocalSalvamentoLayout);
+        buscaLocalSalvamentoLayout.setHorizontalGroup(
+            buscaLocalSalvamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        buscaLocalSalvamentoLayout.setVerticalGroup(
+            buscaLocalSalvamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         carregaLocalImagem.setDialogType(javax.swing.JFileChooser.SAVE_DIALOG);
+        carregaLocalImagem.setCurrentDirectory(new java.io.File("C:\\Users\\Victor\\Desktop"));
         carregaLocalImagem.setFileSelectionMode(javax.swing.JFileChooser.DIRECTORIES_ONLY);
+
+        localFavorito.setFileSelectionMode(javax.swing.JFileChooser.DIRECTORIES_ONLY);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -95,7 +154,7 @@ public class Main extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lb_image, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -105,12 +164,37 @@ public class Main extends javax.swing.JFrame {
                 .addGap(40, 40, 40))
         );
 
-        txCaminhoImage.setText("jTextField1");
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 15, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
 
-        btMudaImage.setText("Muda Imagem");
-        btMudaImage.addActionListener(new java.awt.event.ActionListener() {
+        treeFiles.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
+            public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
+                treeFilesValueChanged(evt);
+            }
+        });
+        jScrollPane1.setViewportView(treeFiles);
+
+        listLocalFavorito.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane3.setViewportView(listLocalFavorito);
+
+        btMoverImagem.setText("Mover Imagem");
+
+        btAdicionaLocal.setText("Adicionar Local");
+        btAdicionaLocal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btMudaImageActionPerformed(evt);
+                btAdicionaLocalActionPerformed(evt);
             }
         });
 
@@ -119,59 +203,49 @@ public class Main extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addComponent(txCaminhoImage, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 138, Short.MAX_VALUE)
-                .addComponent(btMudaImage)
-                .addGap(64, 64, 64))
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btMoverImagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btAdicionaLocal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txCaminhoImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btMudaImage))
-                .addContainerGap(42, Short.MAX_VALUE))
-        );
-
-        alteraArvore();
-        treeFiles.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
-            public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
-                treeFilesValueChanged(evt);
-            }
-        });
-        jScrollPane1.setViewportView(treeFiles);
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1))
-                .addContainerGap())
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(btMoverImagem)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btAdicionaLocal)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         menuArquivo.setText("Arquivos");
 
-        subMenuLocalImagem.setText("Local das imagens");
+        subMenuLocalImagem.setText("Carregar imagens");
         subMenuLocalImagem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 subMenuLocalImagemActionPerformed(evt);
             }
         });
         menuArquivo.add(subMenuLocalImagem);
+
+        menuDestino.setText("Destino Imagem");
+        menuDestino.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuDestinoActionPerformed(evt);
+            }
+        });
+        menuArquivo.add(menuDestino);
 
         jMenuBar1.add(menuArquivo);
 
@@ -187,37 +261,20 @@ public class Main extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 663, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btMudaImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btMudaImageActionPerformed
-        try {
-            String nomeImagem = txCaminhoImage.getText();
-            Imagem image = new Imagem();
-            image.carregaImagem("C:\\Users\\Victor\\Downloads\\" + nomeImagem + ".jpg");
-            lb_image.setIcon(image.geraImagemParaExibicao());
-        } catch (IOException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_btMudaImageActionPerformed
-
-    private void mudaImagemVisualizada(String imagemCaminho) {
-        try {
-            Imagem image = new Imagem();
-            image.carregaImagem(imagemCaminho);
-            lb_image.setIcon(image.geraImagemParaExibicao());
-        } catch (IOException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 
     private void subMenuLocalImagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenuLocalImagemActionPerformed
         final int opcao = carregaLocalImagem.showOpenDialog(this);
@@ -225,41 +282,54 @@ public class Main extends javax.swing.JFrame {
             pathEscolhido = carregaLocalImagem.getSelectedFile().getPath();
             carregaLocalImagem.setCurrentDirectory(new File(pathEscolhido));
         }
-        final DefaultMutableTreeNode carregaArquivos = carregaArquivos(pathEscolhido);
+        final DefaultMutableTreeNode carregaArquivos = new Arquivo().carregaArquivos(pathEscolhido);
         TreeModel l = new DefaultTreeModel(carregaArquivos);
         treeFiles.setModel(l);
     }//GEN-LAST:event_subMenuLocalImagemActionPerformed
 
     private void treeFilesValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_treeFilesValueChanged
         final TreePath selectionPath = treeFiles.getSelectionPath();
-        final Object image = selectionPath.getPath()[1];
-        final String imagemSelecionada = pathEscolhido+File.separatorChar+image.toString();
-        System.out.println(imagemSelecionada);
-        mudaImagemVisualizada(imagemSelecionada);
+        final Visualizador visualizador = new Visualizador(lb_image, pathEscolhido);
+        if (visualizador.validaPathTree(selectionPath)) {
+            return;
+        }
+        visualizador.alteraImagemNoVisualizador(selectionPath);
     }//GEN-LAST:event_treeFilesValueChanged
 
-    public DefaultMutableTreeNode carregaArquivos(String src){
-        File f = new File(src);
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode(""+f.getName());
-        for(File k:f.listFiles()){
-            if(!k.isDirectory()){
-                if(verificaSeImagem(k)){
-                DefaultMutableTreeNode arquivo =new DefaultMutableTreeNode(""+k.getName());
-                root.add(arquivo);
-                }
-            }
+    private void btAdicionaLocalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAdicionaLocalActionPerformed
+        buscaLocalSalvamento.setVisible(true);
+    }//GEN-LAST:event_btAdicionaLocalActionPerformed
+
+    private void menuDestinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuDestinoActionPerformed
+        int opcao = localFavorito.showOpenDialog(this);
+        if (JFileChooser.APPROVE_OPTION == opcao) {
+            pathFavorito = localFavorito.getSelectedFile().getPath() + File.separatorChar;
+            localFavorito.setCurrentDirectory(new File(pathFavorito));
         }
-        return root;
-    }
-    private void alteraArvore() {
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode("Root:"+pathEscolhido);
-        DefaultMutableTreeNode vegetableNode = new DefaultMutableTreeNode("Vegetables");
-        DefaultMutableTreeNode fruitNode = new DefaultMutableTreeNode("Fruits");
-        root.add(vegetableNode);
-        root.add(fruitNode);
-        treeFiles = new JTree(root);
-    }
-    String pathEscolhido="";
+        System.out.println("" + pathFavorito);
+    }//GEN-LAST:event_menuDestinoActionPerformed
+
+    private void btSalvaLocalFavoritoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvaLocalFavoritoActionPerformed
+
+        String localNovo = txSalvaLocalFavorito.getText();
+        String[] ramoLocalNovo = new String[0];
+        String reg = "<->";
+        if (localNovo.contains("\\")) {
+            localNovo = localNovo.replace("\\", "" + reg);
+            ramoLocalNovo = localNovo.split("" + reg);
+        } else if (localNovo.contains("/")) {
+            localNovo = localNovo.replace("/", "" + reg);
+            ramoLocalNovo = localNovo.split("" + reg);
+        } else {
+            ramoLocalNovo = new String[]{localNovo};
+        }
+        listaFavorita.add(new Diretorio(pathFavorito).criaDiretorio(ramoLocalNovo));
+        
+    }//GEN-LAST:event_btSalvaLocalFavoritoActionPerformed
+
+   private ArrayList<String> listaFavorita = new ArrayList<>();
+    private String pathEscolhido = "";
+    private String pathFavorito = "";
 
     /**
      * @param args the command line arguments
@@ -278,13 +348,17 @@ public class Main extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Main.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Main.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Main.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Main.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -298,33 +372,30 @@ public class Main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btMudaImage;
-    private javax.swing.JDialog buscaLocalCarregamento;
+    private javax.swing.JButton btAdicionaLocal;
+    private javax.swing.JButton btCancelaLocalFavorito;
+    private javax.swing.JButton btMoverImagem;
+    private javax.swing.JButton btSalvaLocalFavorito;
+    private javax.swing.JDialog buscaLocalSalvamento;
     private javax.swing.JFileChooser carregaLocalImagem;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JLabel lbLocalFavorito;
+    private javax.swing.JLabel lbTitleSalvaLocalFavorito;
     private javax.swing.JLabel lb_image;
+    private javax.swing.JList<String> listLocalFavorito;
+    private javax.swing.JFileChooser localFavorito;
     private javax.swing.JMenu menuArquivo;
+    private javax.swing.JMenuItem menuDestino;
     private javax.swing.JMenuItem subMenuLocalImagem;
     private javax.swing.JTree treeFiles;
-    private javax.swing.JTextField txCaminhoImage;
+    private javax.swing.JTextField txSalvaLocalFavorito;
     // End of variables declaration//GEN-END:variables
 
-    private boolean verificaSeImagem(File k) {
-        String name = k.getName().toLowerCase();
-        if(name.contains(".jpg")){
-            return true;
-        }
-        if(name.contains(".jpeg")){
-            return true;
-        }
-        if(name.contains(".gif")){
-            return true;
-        }
-        return false;
-    }
 }

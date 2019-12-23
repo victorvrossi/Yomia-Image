@@ -16,6 +16,9 @@ public class Imagem {
     private int heightDefault = 480;
 
     public void carregaImagem(String caminho) throws IOException {
+        if(!caminho.contains(".")){
+            caminho +=".jpg";
+        }
         imageFromFile = ImageIO.read(new File(caminho));
     }
 
