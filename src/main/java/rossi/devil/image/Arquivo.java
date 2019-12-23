@@ -22,11 +22,13 @@ public class Arquivo {
 
     private void carregaSubNo(DefaultMutableTreeNode root, String src, boolean carregaArquivo) {
         File f = new File(src);
-        for (File k : f.listFiles()) {
-            if (!k.isDirectory()) {
-                carregaArquivo(k, root, carregaArquivo);
-            } else {
-                carregaDiretorio(k, root, src, carregaArquivo);
+        if (f != null && f.listFiles() !=null &&f.listFiles().length > 0) {
+            for (File k : f.listFiles()) {
+                if (!k.isDirectory() && carregaArquivo) {
+                    carregaArquivo(k, root, carregaArquivo);
+                } else {
+                    carregaDiretorio(k, root, src, carregaArquivo);
+                }
             }
         }
     }

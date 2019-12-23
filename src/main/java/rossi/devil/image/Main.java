@@ -39,43 +39,43 @@ public class Main extends javax.swing.JFrame {
         initComponents();
         iconeDeArvoreDeArquivos();
         listaDeFavorito = new ListaDeFavorito(listLocalFavorito);
+        try {
+            final Imagem imagem = new Imagem();
+            imagem.alteraDimensao(640, 640, getClass().getResource("/META-INF/Flag_.png"));
+            lb_image.setIcon(imagem.geraImagemParaExibicao());
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void iconeDeArvoreDeArquivos() {
-        DefaultTreeCellRenderer modeloArvoreArquivos = new DefaultTreeCellRenderer();
-        ImageIcon imageIcon = null;
         Imagem imagem = new Imagem();
+
+        final String src = "/META-INF/folder.png";
+        final URL resource = getClass().getResource(src);
+        imagem.alteraDimensao(20, 20, resource);
         try {
-            final URL resource = getClass().getResource("/META-INF/folder.png");
-            imagem.alteraDimensao(20, 20, resource);
-            imageIcon = imagem.geraImagemParaExibicao();
-            modeloArvoreArquivos.setOpenIcon(imageIcon);
-            modeloArvoreArquivos.setClosedIcon(imageIcon);
-            treeFiles.setCellRenderer(modeloArvoreArquivos);
-            
+            final ImageIcon folderIcon = imagem.geraImagemParaExibicao();
+            defineIconeArvore(src, treeFiles, folderIcon, folderIcon, null);
+            defineIconeArvore(src, treeFavoritos, folderIcon, folderIcon, folderIcon);
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        DefaultTreeCellRenderer modeloArvoreFavorito = new DefaultTreeCellRenderer();
-        
-        imagem = new Imagem();
-        try {
-            final URL resource = getClass().getResource("/META-INF/folder.png");
-            imagem.alteraDimensao(20, 20, resource);
-            imageIcon = imagem.geraImagemParaExibicao();
-            modeloArvoreFavorito.setOpenIcon(imageIcon);
-            modeloArvoreFavorito.setClosedIcon(imageIcon);
-            modeloArvoreFavorito.setLeafIcon(imageIcon);
-            treeFavoritos.setCellRenderer(modeloArvoreFavorito);
-        } catch (IOException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+
+    }
+
+    private void defineIconeArvore(String src, javax.swing.JTree tree, ImageIcon imageIconOpen, ImageIcon imageIconClose, ImageIcon imageIconLeaf) {
+        DefaultTreeCellRenderer modeloArvore = new DefaultTreeCellRenderer();
+        if (imageIconOpen != null) {
+            modeloArvore.setOpenIcon(imageIconOpen);
         }
-        
-        
-        
-        
-        
+        if (imageIconClose != null) {
+            modeloArvore.setClosedIcon(imageIconClose);
+        }
+        if (imageIconLeaf != null) {
+            modeloArvore.setLeafIcon(imageIconLeaf);
+        }
+        tree.setCellRenderer(modeloArvore);
     }
 
     /**
@@ -225,7 +225,7 @@ public class Main extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(204, 255, 204));
         jPanel1.setForeground(new java.awt.Color(204, 255, 204));
 
-        lb_image.setIcon(new javax.swing.ImageIcon(getClass().getResource("/META-INF/icone.jpg"))); // NOI18N
+        lb_image.setIcon(new javax.swing.ImageIcon(getClass().getResource("/META-INF/Flag_.png"))); // NOI18N
         lb_image.setMaximumSize(new java.awt.Dimension(640, 640));
         lb_image.setPreferredSize(new java.awt.Dimension(640, 640));
 
@@ -316,13 +316,13 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(btMoverImagem)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(51, 51, 51)
                         .addComponent(btAdicionaLocal)
                         .addGap(18, 18, 18)
-                        .addComponent(btRemoveLocal)))
+                        .addComponent(btRemoveLocal))
+                    .addComponent(jScrollPane3))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -379,7 +379,7 @@ public class Main extends javax.swing.JFrame {
             pathEscolhido = carregaLocalImagem.getSelectedFile().getPath();
             carregaLocalImagem.setCurrentDirectory(new File(pathEscolhido));
         }
-        
+
         final DefaultMutableTreeNode carregaArquivos = new Arquivo().carregaDiretorio(pathEscolhido, true);
         TreeModel l = new DefaultTreeModel(carregaArquivos);
         treeFiles.setModel(l);
@@ -411,6 +411,9 @@ public class Main extends javax.swing.JFrame {
             pathFavorito = localFavorito.getSelectedFile().getPath();
             localFavorito.setCurrentDirectory(new File(pathFavorito));
         }
+        listaDeFavorito.carregaArquivoConfiguracao(pathFavorito + File.separatorChar + "confFavorito.txt");
+        listaDeFavorito.remontaLista();
+
     }//GEN-LAST:event_menuDestinoActionPerformed
 
     private void btSalvaLocalFavoritoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvaLocalFavoritoActionPerformed
@@ -427,10 +430,10 @@ public class Main extends javax.swing.JFrame {
         } else {
             ramoLocalNovo = new String[]{localNovo};
         }
-        final Diretorio diretorio = new Diretorio(pathFavorito);        
-        listaDeFavorito.adicionaLocalNovoAoFavorito(diretorio.criaDiretorio(new Diretorio(pathFavorito).montaPath(treeFavoritos.getSelectionPath()),ramoLocalNovo));
+        final Diretorio diretorio = new Diretorio(pathFavorito);
+        listaDeFavorito.adicionaLocalNovoAoFavorito(diretorio.criaDiretorio(new Diretorio(pathFavorito).montaPath(treeFavoritos.getSelectionPath()), ramoLocalNovo));
         listaDeFavorito.remontaLista();
-        listaDeFavorito.gravaArquivo(pathFavorito);
+        listaDeFavorito.gravaArquivo(pathFavorito + File.separatorChar + "confFavorito.txt");
         atualizaArvoreFavorito();
     }//GEN-LAST:event_btSalvaLocalFavoritoActionPerformed
 

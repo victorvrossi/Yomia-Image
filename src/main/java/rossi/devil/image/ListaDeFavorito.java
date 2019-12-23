@@ -1,7 +1,10 @@
 package rossi.devil.image;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,7 +17,6 @@ public class ListaDeFavorito {
 
     private javax.swing.JList<String> listLocalFavorito;
     private List<String> listaFavorita = new ArrayList<String>();
-    
 
     public ListaDeFavorito(javax.swing.JList<String> listLocalFavorito) {
         this.listLocalFavorito = listLocalFavorito;
@@ -27,6 +29,7 @@ public class ListaDeFavorito {
     public void remontaLista() {
         List<String> selectedValuesList = listaFavorita;
         exibeListaNovaDeFavorito(selectedValuesList);
+        listLocalFavorito.setSize(362, 147);
     }
 
     public void removeItem() {
@@ -89,15 +92,51 @@ public class ListaDeFavorito {
     public void gravaArquivo(String fileName) {
         BufferedWriter buffWrite = null;
         try {
-            buffWrite = new BufferedWriter(new FileWriter(fileName));
+            buffWrite = new BufferedWriter(new FileWriter(fileName, false));
             for (String linha : listaFavorita) {
                 buffWrite.append(linha + "\n");
-            }   buffWrite.close();
+            }
+            buffWrite.close();
         } catch (IOException ex) {
             Logger.getLogger(ListaDeFavorito.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 buffWrite.close();
+            } catch (IOException ex) {
+                Logger.getLogger(ListaDeFavorito.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    void carregaArquivoConfiguracao(String path) {
+        try{
+        if (!new File(path).exists()) {
+            return;
+        }
+        }catch(Exception e){
+            return ;
+        }
+        
+        BufferedReader buffRead = null;
+        try {
+            buffRead = new BufferedReader(new FileReader(path));
+            String linha = "";
+            while (true) {
+                if (linha != null) {
+                    listaFavorita.add(linha);
+                } else {
+                    break;
+                }
+                linha = buffRead.readLine();
+            }
+            buffRead.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ListaDeFavorito.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ListaDeFavorito.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                buffRead.close();
             } catch (IOException ex) {
                 Logger.getLogger(ListaDeFavorito.class.getName()).log(Level.SEVERE, null, ex);
             }
