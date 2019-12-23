@@ -7,11 +7,21 @@ package rossi.devil.image;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.ListModel;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellEditor;
+import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
@@ -27,6 +37,45 @@ public class Main extends javax.swing.JFrame {
      */
     public Main() {
         initComponents();
+        iconeDeArvoreDeArquivos();
+        listaDeFavorito = new ListaDeFavorito(listLocalFavorito);
+    }
+
+    private void iconeDeArvoreDeArquivos() {
+        DefaultTreeCellRenderer modeloArvoreArquivos = new DefaultTreeCellRenderer();
+        ImageIcon imageIcon = null;
+        Imagem imagem = new Imagem();
+        try {
+            final URL resource = getClass().getResource("/META-INF/folder.png");
+            imagem.alteraDimensao(20, 20, resource);
+            imageIcon = imagem.geraImagemParaExibicao();
+            modeloArvoreArquivos.setOpenIcon(imageIcon);
+            modeloArvoreArquivos.setClosedIcon(imageIcon);
+            treeFiles.setCellRenderer(modeloArvoreArquivos);
+            
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        DefaultTreeCellRenderer modeloArvoreFavorito = new DefaultTreeCellRenderer();
+        
+        imagem = new Imagem();
+        try {
+            final URL resource = getClass().getResource("/META-INF/folder.png");
+            imagem.alteraDimensao(20, 20, resource);
+            imageIcon = imagem.geraImagemParaExibicao();
+            modeloArvoreFavorito.setOpenIcon(imageIcon);
+            modeloArvoreFavorito.setClosedIcon(imageIcon);
+            modeloArvoreFavorito.setLeafIcon(imageIcon);
+            treeFavoritos.setCellRenderer(modeloArvoreFavorito);
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        
+        
+        
     }
 
     /**
@@ -45,6 +94,9 @@ public class Main extends javax.swing.JFrame {
         lbTitleSalvaLocalFavorito = new javax.swing.JLabel();
         btSalvaLocalFavorito = new javax.swing.JButton();
         btCancelaLocalFavorito = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        treeFavoritos = new javax.swing.JTree();
         carregaLocalImagem = new javax.swing.JFileChooser();
         localFavorito = new javax.swing.JFileChooser();
         jPanel1 = new javax.swing.JPanel();
@@ -57,6 +109,7 @@ public class Main extends javax.swing.JFrame {
         listLocalFavorito = new javax.swing.JList<>();
         btMoverImagem = new javax.swing.JButton();
         btAdicionaLocal = new javax.swing.JButton();
+        btRemoveLocal = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuArquivo = new javax.swing.JMenu();
         subMenuLocalImagem = new javax.swing.JMenuItem();
@@ -66,6 +119,8 @@ public class Main extends javax.swing.JFrame {
         buscaLocalSalvamento.setMaximumSize(new java.awt.Dimension(788, 372));
         buscaLocalSalvamento.setMinimumSize(new java.awt.Dimension(788, 372));
         buscaLocalSalvamento.setResizable(false);
+
+        jPanel4.setBackground(new java.awt.Color(204, 204, 255));
 
         txSalvaLocalFavorito.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         txSalvaLocalFavorito.setText("jTextField1");
@@ -118,18 +173,44 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btSalvaLocalFavorito)
                     .addComponent(btCancelaLocalFavorito))
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addContainerGap(292, Short.MAX_VALUE))
+        );
+
+        jPanel5.setBackground(new java.awt.Color(255, 204, 204));
+
+        jScrollPane2.setViewportView(treeFavoritos);
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout buscaLocalSalvamentoLayout = new javax.swing.GroupLayout(buscaLocalSalvamento.getContentPane());
         buscaLocalSalvamento.getContentPane().setLayout(buscaLocalSalvamentoLayout);
         buscaLocalSalvamentoLayout.setHorizontalGroup(
             buscaLocalSalvamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(buscaLocalSalvamentoLayout.createSequentialGroup()
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         buscaLocalSalvamentoLayout.setVerticalGroup(
             buscaLocalSalvamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         carregaLocalImagem.setDialogType(javax.swing.JFileChooser.SAVE_DIALOG);
@@ -139,11 +220,12 @@ public class Main extends javax.swing.JFrame {
         localFavorito.setFileSelectionMode(javax.swing.JFileChooser.DIRECTORIES_ONLY);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(204, 255, 204));
         jPanel1.setForeground(new java.awt.Color(204, 255, 204));
 
-        lb_image.setIcon(new javax.swing.ImageIcon("C:\\Users\\Victor\\Downloads\\78596357_2498338013595877_1917373576751611904_n.jpg")); // NOI18N
+        lb_image.setIcon(new javax.swing.ImageIcon(getClass().getResource("/META-INF/icone.jpg"))); // NOI18N
         lb_image.setMaximumSize(new java.awt.Dimension(640, 640));
         lb_image.setPreferredSize(new java.awt.Dimension(640, 640));
 
@@ -190,11 +272,23 @@ public class Main extends javax.swing.JFrame {
         jScrollPane3.setViewportView(listLocalFavorito);
 
         btMoverImagem.setText("Mover Imagem");
+        btMoverImagem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btMoverImagemActionPerformed(evt);
+            }
+        });
 
         btAdicionaLocal.setText("Adicionar Local");
         btAdicionaLocal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btAdicionaLocalActionPerformed(evt);
+            }
+        });
+
+        btRemoveLocal.setText("Remover Local");
+        btRemoveLocal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btRemoveLocalActionPerformed(evt);
             }
         });
 
@@ -211,7 +305,8 @@ public class Main extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btMoverImagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btAdicionaLocal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(btAdicionaLocal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btRemoveLocal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -220,12 +315,14 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(btMoverImagem)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btAdicionaLocal)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btAdicionaLocal)
+                        .addGap(18, 18, 18)
+                        .addComponent(btRemoveLocal)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -249,7 +346,7 @@ public class Main extends javax.swing.JFrame {
 
         jMenuBar1.add(menuArquivo);
 
-        jMenu2.setText("Edit");
+        jMenu2.setText("Configuração");
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -282,7 +379,8 @@ public class Main extends javax.swing.JFrame {
             pathEscolhido = carregaLocalImagem.getSelectedFile().getPath();
             carregaLocalImagem.setCurrentDirectory(new File(pathEscolhido));
         }
-        final DefaultMutableTreeNode carregaArquivos = new Arquivo().carregaArquivos(pathEscolhido);
+        
+        final DefaultMutableTreeNode carregaArquivos = new Arquivo().carregaDiretorio(pathEscolhido, true);
         TreeModel l = new DefaultTreeModel(carregaArquivos);
         treeFiles.setModel(l);
     }//GEN-LAST:event_subMenuLocalImagemActionPerformed
@@ -298,15 +396,21 @@ public class Main extends javax.swing.JFrame {
 
     private void btAdicionaLocalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAdicionaLocalActionPerformed
         buscaLocalSalvamento.setVisible(true);
+        atualizaArvoreFavorito();
     }//GEN-LAST:event_btAdicionaLocalActionPerformed
+
+    private void atualizaArvoreFavorito() {
+        final DefaultMutableTreeNode carregaArquivos = new Arquivo().carregaDiretorio(pathFavorito, false);
+        TreeModel l = new DefaultTreeModel(carregaArquivos);
+        treeFavoritos.setModel(l);
+    }
 
     private void menuDestinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuDestinoActionPerformed
         int opcao = localFavorito.showOpenDialog(this);
         if (JFileChooser.APPROVE_OPTION == opcao) {
-            pathFavorito = localFavorito.getSelectedFile().getPath() + File.separatorChar;
+            pathFavorito = localFavorito.getSelectedFile().getPath();
             localFavorito.setCurrentDirectory(new File(pathFavorito));
         }
-        System.out.println("" + pathFavorito);
     }//GEN-LAST:event_menuDestinoActionPerformed
 
     private void btSalvaLocalFavoritoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvaLocalFavoritoActionPerformed
@@ -323,11 +427,31 @@ public class Main extends javax.swing.JFrame {
         } else {
             ramoLocalNovo = new String[]{localNovo};
         }
-        listaFavorita.add(new Diretorio(pathFavorito).criaDiretorio(ramoLocalNovo));
-        
+        final Diretorio diretorio = new Diretorio(pathFavorito);        
+        listaDeFavorito.adicionaLocalNovoAoFavorito(diretorio.criaDiretorio(new Diretorio(pathFavorito).montaPath(treeFavoritos.getSelectionPath()),ramoLocalNovo));
+        listaDeFavorito.remontaLista();
+        listaDeFavorito.gravaArquivo(pathFavorito);
+        atualizaArvoreFavorito();
     }//GEN-LAST:event_btSalvaLocalFavoritoActionPerformed
 
-   private ArrayList<String> listaFavorita = new ArrayList<>();
+    private void btMoverImagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btMoverImagemActionPerformed
+        final TreePath selectionPath = treeFiles.getSelectionPath();
+        System.out.println("Path Home     Selecionado:" + new Diretorio(pathEscolhido).montaPathDaImagemSelecionada(selectionPath));
+        System.out.println("Path Destinho Selecionado:" + pathFavorito + listLocalFavorito.getSelectedValue());
+        File origem = new File(new Diretorio(pathEscolhido).montaPathDaImagemSelecionada(selectionPath));
+        if (origem.isFile()) {
+            try {
+                Files.copy(Paths.get(new Diretorio(pathEscolhido).montaPathDaImagemSelecionada(selectionPath)), Paths.get(pathFavorito + listLocalFavorito.getSelectedValue() + Diretorio.imagemSelecionada(selectionPath)), StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_btMoverImagemActionPerformed
+
+    private void btRemoveLocalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btRemoveLocalActionPerformed
+        listaDeFavorito.remontaLista();
+    }//GEN-LAST:event_btRemoveLocalActionPerformed
+
     private String pathEscolhido = "";
     private String pathFavorito = "";
 
@@ -375,6 +499,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton btAdicionaLocal;
     private javax.swing.JButton btCancelaLocalFavorito;
     private javax.swing.JButton btMoverImagem;
+    private javax.swing.JButton btRemoveLocal;
     private javax.swing.JButton btSalvaLocalFavorito;
     private javax.swing.JDialog buscaLocalSalvamento;
     private javax.swing.JFileChooser carregaLocalImagem;
@@ -384,7 +509,9 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lbLocalFavorito;
     private javax.swing.JLabel lbTitleSalvaLocalFavorito;
@@ -394,8 +521,9 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenu menuArquivo;
     private javax.swing.JMenuItem menuDestino;
     private javax.swing.JMenuItem subMenuLocalImagem;
+    private javax.swing.JTree treeFavoritos;
     private javax.swing.JTree treeFiles;
     private javax.swing.JTextField txSalvaLocalFavorito;
     // End of variables declaration//GEN-END:variables
-
+    private ListaDeFavorito listaDeFavorito;
 }

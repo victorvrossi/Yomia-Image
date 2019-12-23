@@ -20,22 +20,14 @@ public class Visualizador {
     
     
     public void alteraImagemNoVisualizador(final TreePath selectionPath) {
-        String imagemSelecionada = montaPathDaImagemSelecionada(selectionPath) ;
-        
+        String imagemSelecionada = new Diretorio(pathEscolhido).montaPathDaImagemSelecionada(selectionPath);
         File f = new File(imagemSelecionada);
         if (f.isFile()) {
             mudaImagemVisualizada(imagemSelecionada);
         }
     }
 
-    private String montaPathDaImagemSelecionada(final TreePath selectionPath) {
-        String imagemSelecionada = pathEscolhido ;
-        for (int i = 1; i < selectionPath.getPath().length; i++) {
-            Object l = selectionPath.getPath()[i];
-            imagemSelecionada += File.separatorChar + l.toString();
-        }
-        return imagemSelecionada;
-    }
+    
 
     public boolean validaPathTree(final TreePath selectionPath) {
         if (selectionPath == null) {

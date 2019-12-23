@@ -5,6 +5,9 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
@@ -20,6 +23,16 @@ public class Imagem {
             caminho +=".jpg";
         }
         imageFromFile = ImageIO.read(new File(caminho));
+    }
+    
+    public void alteraDimensao(int widthDefault ,int heightDefault ,URL resource){
+        try {
+            imageFromFile = ImageIO.read(resource);
+            this.widthDefault = widthDefault;
+            this.heightDefault = heightDefault;
+        } catch (IOException ex) {
+            Logger.getLogger(Imagem.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public ImageIcon geraImagemParaExibicao() throws IOException {
