@@ -118,6 +118,7 @@ public class ListaDeFavorito {
         }
         
         BufferedReader buffRead = null;
+        listaFavorita.clear();
         try {
             buffRead = new BufferedReader(new FileReader(path));
             String linha = "";

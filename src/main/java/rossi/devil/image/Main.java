@@ -39,6 +39,10 @@ public class Main extends javax.swing.JFrame {
         initComponents();
         iconeDeArvoreDeArquivos();
         listaDeFavorito = new ListaDeFavorito(listLocalFavorito);
+        iconeExibicao();
+    }
+
+    private void iconeExibicao() {
         try {
             final Imagem imagem = new Imagem();
             imagem.alteraDimensao(640, 640, getClass().getResource("/META-INF/Flag_.png"));
