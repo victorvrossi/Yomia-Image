@@ -7,33 +7,37 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 
 public class Arquivo {
 
-    public DefaultMutableTreeNode carregaDiretorio(String src, boolean carregaArquivo) {
-        File f = new File(src);
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode("" + f.getName());
-        for (File k : f.listFiles()) {
-            if (!k.isDirectory() && carregaArquivo) {
-                carregaArquivo(k, root, carregaArquivo);
-            } else {
-                carregaDiretorio(k, root, src, carregaArquivo);
-            }
-        }
-        return root;
-    }
-
-    private void carregaSubNo(DefaultMutableTreeNode root, String src, boolean carregaArquivo) {
-        File f = new File(src);
-        if (f != null && f.listFiles() !=null &&f.listFiles().length > 0) {
+    public DefaultMutableTreeNode carregaDiretorio(String src, boolean carregaArquivo) throws FalhaSistema {
+        File f = new File(src);        
+        try {
+            DefaultMutableTreeNode root = new DefaultMutableTreeNode("" + f.getName());
             for (File k : f.listFiles()) {
                 if (!k.isDirectory() && carregaArquivo) {
                     carregaArquivo(k, root, carregaArquivo);
                 } else {
-                    carregaDiretorio(k, root, src, carregaArquivo);
+                    carregaArvoreDiretorio(k, root, src, carregaArquivo);
+                }
+            }
+            return root;
+        } catch (NullPointerException e) {
+            throw new FalhaSistema("Houve um problema ao abrir o diretorio de Favoritos. \n\n Você escolheu o seguinte local:"+src);
+        }
+    }
+
+    private void carregaSubNo(DefaultMutableTreeNode root, String src, boolean carregaArquivo) {
+        File f = new File(src);
+        if (f != null && f.listFiles() != null && f.listFiles().length > 0) {
+            for (File k : f.listFiles()) {
+                if (!k.isDirectory() && carregaArquivo) {
+                    carregaArquivo(k, root, carregaArquivo);
+                } else {
+                    carregaArvoreDiretorio(k, root, src, carregaArquivo);
                 }
             }
         }
     }
 
-    private void carregaDiretorio(File k, DefaultMutableTreeNode root, String src, boolean carregaArquivo) {
+    private void carregaArvoreDiretorio(File k, DefaultMutableTreeNode root, String src, boolean carregaArquivo) {
         DefaultMutableTreeNode diretorio = new DefaultMutableTreeNode(k.getName());
         root.add(diretorio);
         carregaSubNo(diretorio, src + File.separatorChar + k.getName(), carregaArquivo);
@@ -65,4 +69,5 @@ public class Arquivo {
         }
         return false;
     }
+
 }
